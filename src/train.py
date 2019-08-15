@@ -16,6 +16,7 @@ data = datasets.load_boston()
 
 # preprocess data
 x = pd.DataFrame(data.data, columns=data.feature_names)
+print("X", x.head())
 y = pd.DataFrame(data.target, columns=["MEDV"])
 column_order = x.columns
 x_train, x_test, y_train, y_test = train_test_split(x, y)
@@ -27,13 +28,16 @@ MAX_DEPTH = 2
 model = RandomForestRegressor(n_estimators=N_ESTIMATORS, max_depth=MAX_DEPTH)
 model = model.fit(x_train, y_train.values.ravel())
 
-# save model 
-joblib.dump(model, 'models/model.joblib') 
+# save model
+joblib.dump(model, 'models/model.joblib')
 joblib.dump(column_order, 'models/column_order.joblib')
 
+print("hello")
 if settings.SHOULD_USE_MLFLOW == 'true':
     # log training run to mlflow
-    mlflow.set_tracking_uri(uri=f'http://{settings.MLFLOW_IP}:5000')
+    uri = f'http://{settings.MLFLOW_IP}:5000'
+    print("uri", uri)
+    mlflow.set_tracking_uri(uri=uri)
     if settings.CI == 'true':
         mlflow.set_experiment('CI')
     else:
@@ -48,7 +52,7 @@ if settings.SHOULD_USE_MLFLOW == 'true':
         # log hyperparameters to mlflow
         mlflow.log_param('n_estimators', N_ESTIMATORS)
         mlflow.log_param('max_depth', MAX_DEPTH)
-        
+
         # log metrics to mlflow
         mlflow.log_metric("rmse_validation_data", rmse)
         mlflow.log_metric("r2_score_validation_data", r2_score)
