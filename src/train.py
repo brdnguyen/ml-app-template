@@ -32,7 +32,6 @@ model = model.fit(x_train, y_train.values.ravel())
 joblib.dump(model, 'models/model.joblib')
 joblib.dump(column_order, 'models/column_order.joblib')
 
-print("hello")
 if settings.SHOULD_USE_MLFLOW == 'true':
     # log training run to mlflow
     uri = f'http://{settings.MLFLOW_IP}:5000'

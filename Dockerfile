@@ -22,7 +22,7 @@ FROM Base as Build
 ARG CI
 ENV CI=$CI
 
-RUN /home/ml-app-template-workshop/bin/train_model.sh
+# RUN /home/ml-app-template-workshop/bin/train_model.sh
 
 CMD ["/home/ml-app-template-workshop/bin/start_server.sh"]
 

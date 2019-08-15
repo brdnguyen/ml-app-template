@@ -1,0 +1,23 @@
+version: '3'
+services:
+  ml-app-template-workshop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/home/ml-app-template-workshop
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mlflow
+    environment:
+      MLFLOW_TRACKING_URI: 'http://mlflow:5000'
+  mlflow:
+    build:
+      context: ./ml-flow-docker
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"
