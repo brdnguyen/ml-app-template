@@ -1,9 +1,10 @@
 # ml-app-template-workshop
 
 An ML project template for CD4ML Workshop in Melbourne, Australia.
+
+<br/>
 Credit: it is based closely on the TW Singapore's team at https://github.com/ThoughtWorksInc/ml-app-template
 
-For infrastructure-related stuff (e.g. provisioning of CI server, deployments, etc.), please refer to https://github.com/ThoughtWorksInc/ml-cd-starter-kit.
 
 # Getting started
 
@@ -14,11 +15,10 @@ For infrastructure-related stuff (e.g. provisioning of CI server, deployments, e
 5. Build Docker images and start containers:
 
 ```shell
-# build docker image [Mac/Linux users]
-# Workshop's note: walk through content of Dockerfile before running this command.
+# build docker images
 docker-compose build
 
-# start docker container [Mac/Linux users]
+# start docker containers
 docker-compose up
 
 ```
@@ -69,11 +69,11 @@ In your container, run:
 python src/train.py
 ```
 
-In your web browser (on local laptop), visit http://localhost:5000 and you shoud see MLFlow begin to capture the change.
+In your web browser (on local laptop), visit http://localhost:5000 . You shoud see MLFlow has captured the change.
 
-## Task 3: Let's change the "Model"
+## Task 3: Let's change the Model
 
-Let's keep the training data the same, but change the model logic, and see the change versioned by MLFlow.
+Let's keep the training data the same, but change the model logic. We want to see the change captured and versioned by MLFlow.
 
 In `src\train.py`, look for "TODO for Task 3" change it to:
 ```
