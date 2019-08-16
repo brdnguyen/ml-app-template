@@ -17,12 +17,19 @@ data = datasets.load_boston()
 # preprocess data
 x = pd.DataFrame(data.data, columns=data.feature_names)
 print("X", x.head())
+
+# TODO for Task 4: Uncomment this line below
+# x['new_column'] = x['TAX'] ** 2
+# #END TODO for Task 3
+
 y = pd.DataFrame(data.target, columns=["MEDV"])
 column_order = x.columns
 x_train, x_test, y_train, y_test = train_test_split(x, y)
 
 # train model
 print('Training ML model...')
+
+# TODO For Task 3: Edit line below Change N_ESTIMATOR = 100
 N_ESTIMATORS = 2
 MAX_DEPTH = 2
 model = RandomForestRegressor(n_estimators=N_ESTIMATORS, max_depth=MAX_DEPTH)
@@ -51,6 +58,7 @@ if settings.SHOULD_USE_MLFLOW == 'true':
         # log hyperparameters to mlflow
         mlflow.log_param('n_estimators', N_ESTIMATORS)
         mlflow.log_param('max_depth', MAX_DEPTH)
+        mlflow.log_param('n_columns_training_data', len(x.columns))
 
         # log metrics to mlflow
         mlflow.log_metric("rmse_validation_data", rmse)

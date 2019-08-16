@@ -1,104 +1,113 @@
-# ml-app-template
+# ml-app-template-workshop
 
 An ML project template for CD4ML Workshop in Melbourne, Australia.
 Credit: it is based closely on the TW Singapore's team at https://github.com/ThoughtWorksInc/ml-app-template
 
 For infrastructure-related stuff (e.g. provisioning of CI server, deployments, etc.), please refer to https://github.com/ThoughtWorksInc/ml-cd-starter-kit.
 
-## Getting started
+# Getting started
 
-1. Fork repository: https://github.com/ThoughtWorksInc/ml-app-template
+1. Fork repository: https://github.com/ThoughtWorksInc/ml-app-template-workshop
 2. Clone repository: `git clone https://github.com/YOUR_USERNAME/ml-app-template`
 3. Install Docker ([Mac](https://docs.docker.com/docker-for-mac/install/), [Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/))
-4. Start Docker on your desktop
-5. Build image and start container:
+4. Start Docker host (Docker Desktop) on your desktop
+5. Build Docker images and start containers:
 
 ```shell
 # build docker image [Mac/Linux users]
-docker build . -t ml-app-template --build-arg user=$(whoami)
+# Workshop's note: walk through content of Dockerfile before running this command.
+docker-compose build
 
 # start docker container [Mac/Linux users]
-docker run -it  -v $(pwd):/home/ml-app-template \
-                -p 8080:8080 \
-                -p 8888:8888 \
-                ml-app-template bash
+docker-compose up
 
-You're ready to roll! Here are some common commands that you can run in your dev workflow. Run these in the container.
-
-```shell
-# add some color to your terminal
-source bin/color_my_terminal.sh
-
-# run unit tests
-nosetests
-
-# run unit tests in watch mode and color output
-nosetests --with-watch --rednose --nologcapture
-
-# train model
-SHOULD_USE_MLFLOW=false python src/train.py
-
-# start flask app in development mode
-python src/app.py
-
-# make requests to your app
-# 1. In your browser, visit http://localhost:8080
-# 2. Open another terminal in the running container (detailed instructions below) and run:
-bin/predict.sh http://localhost:8080
-
-# You can also use this script to test your deployed application later:
-bin/predict.sh http://my-app.com
 ```
 
-Here are some other commands that you may find useful
+At this point, you should see 2 running containers, which expose 2 http endpoints via ports 5000 (MLFlow) and 8080 (Flask app for making). visit:
+
+http://localhost:5000  (this is where MLFlow is hosted)
+http://localhost:8080  (This is where the main Flask app is )
+
+
+<br/>
+You are ready to roll! Here are some common commands that you can run in your dev workflow. Run these in the container.
+
+
 ```shell
-# see list of running containers
+# View list of running containers
 docker ps
 
-# start a bash shell in a running container
-docker exec -it <container-id> bash
 
-# starting jupyter notebook server on http://localhost:8888
-jupyter notebook --ip 0.0.0.0 --no-browser --allow-root
+# Log into the main app container
+docker exec -it <container-id> /bin/bash
+
+
+# add some color to your terminal
+source bin/color_my_terminal.sh
 ```
 
-## What's in this repo?
 
-We've created a project template to help you with the boilerplate code that we usually have to write in any typical project.
+## Task 1: Run tests, and fix failing tests
 
-To reduce incidental complexity, we used a simple dataset (boston housing prices) to train a simple linear regression model. Replace the (i) data, (ii) data preprocessing code and (iii) model specification for your use case.
+In your container (`ml-app-template-workshop`), run:
+```
+nosetests
+```
 
-This is the project structure:
+To fix this failing test, in your code editor, edit
 
-```sh
-.
-├── Dockerfile
-├── README.md
-├── requirements-dev.txt              # specify dev dependencies (e.g. jupyter) here
-├── requirements.txt                  # specify app dependencies here
-├── ci.gocd.yaml                      # specify your CI pipeline here
-└── src                               # place your code here
-    ├── app.py
-    ├── app_with_logging.py
-    ├── tests                         # place your tests here
-    │   ├── test.py
-    │   └── test_model_metrics.py
-    └── settings.py                   # define environment variables here
-    └── train.py
-├── bin                               # store shell scripts here
-│   ├── color_my_terminal.sh
-│   ├── configure_venv_locally.sh
-│   ├── predict.sh
-│   ├── start_server.sh
-│   ├── test.sh
-│   ├── test_model_metrics.sh
-│   └── train_model.sh
-├── docs
-│   ├── FAQs.md
-│   └── mlflow.md
-├── models                            # serialize stuff here
-│   ├── _keep
-│   ├── column_order.joblib
-│   └── model.joblib
+`test_model_metrics.py, line 16`
 
+Follow the instruction around the TODO comment. Once you fix the tests, run test again with `nosetests`
+
+
+## Task 2: Train and version model with MLFlow
+
+In your container, run:
+
+```
+python src/train.py
+```
+
+In your web browser (on local laptop), visit http://localhost:5000 and you shoud see MLFlow begin to capture the change.
+
+## Task 3: Let's change the "Model"
+
+Let's keep the training data the same, but change the model logic, and see the change versioned by MLFlow.
+
+In `src\train.py`, look for "TODO for Task 3" change it to:
+```
+N_ESTIMATORS = 100
+```
+
+then, run:
+
+```
+python src/train.py
+```
+
+See the change in MLFlow UI (localhost:5000)
+
+## Task 4: Make a change to the training data, and version that with MLFlow
+
+Go to `src/train.py`, find "TODO for Task 4", and make the change (uncomment the code) as in the suggestion.
+
+Run
+```
+    python src/train.py
+```
+
+Then check Mlflow again (localhost:5000 to see the change reflected)
+
+
+
+# Consume the model
+
+It is not the focus of this workshop, but we'll walk you through the bit to make live prediction (from an API), from the model we have trained.
+
+## make requests to your app
+1. In your browser, visit http://localhost:8080 to verify the end point is ready.
+2. Open another terminal and run:
+```
+bin/predict.sh http://localhost:8080
 ```
