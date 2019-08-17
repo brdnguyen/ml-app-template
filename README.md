@@ -8,8 +8,7 @@ Credit: it is based closely on the TW Singapore's team at https://github.com/Tho
 
 # Getting started
 
-1. Fork repository: https://github.com/ThoughtWorksInc/ml-app-template-workshop
-2. Clone repository: `git clone https://github.com/YOUR_USERNAME/ml-app-template`
+1. Clone repository: `git clone https://github.com/brdnguyen/ml-app-template-workshop.git`
 3. Install Docker ([Mac](https://docs.docker.com/docker-for-mac/install/), [Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/))
 4. Start Docker host (Docker Desktop) on your desktop
 5. Build Docker images and start containers:
@@ -97,7 +96,7 @@ Run
     python src/train.py
 ```
 
-Then check Mlflow again (localhost:5000 to see the change reflected)
+Then check Mlflow again at localhost:5000 . You should see the change (look for param n_columns_training_data) captured and versioned by MLFlow.
 
 
 
