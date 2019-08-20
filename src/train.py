@@ -16,11 +16,12 @@ data = datasets.load_boston()
 
 # preprocess data
 x = pd.DataFrame(data.data, columns=data.feature_names)
-print("X", x.head())
 
 # TODO for Task 4: Uncomment this line below
-# x['new_column'] = x['TAX'] ** 2
+x['new_column'] = x['TAX'] ** 2
 # #END TODO for Task 3
+
+print("Training data Columns: ", x.head())
 
 y = pd.DataFrame(data.target, columns=["MEDV"])
 column_order = x.columns
