@@ -8,7 +8,7 @@ Credit: it is based closely on the TW Singapore's team at https://github.com/Tho
 
 # Getting started
 
-1. Clone repository: `git clone https://github.com/brdnguyen/ml-app-template-workshop.git`
+1. Clone repository: `git clone https://github.com/brdnguyen/ml-app-template-workshop`
 3. Install Docker ([Mac](https://docs.docker.com/docker-for-mac/install/), [Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/))
 4. Start Docker host (Docker Desktop) on your desktop
 5. Build Docker images and start containers:
@@ -43,6 +43,9 @@ docker exec -it <container-id> /bin/bash
 
 # add some color to your terminal
 source bin/color_my_terminal.sh
+
+# to tear down containers:
+docker-compose stop
 ```
 
 
@@ -99,6 +102,15 @@ Run
 Then check Mlflow again at localhost:5000 . You should see the change (look for param n_columns_training_data) captured and versioned by MLFlow.
 
 
+## Task 5: (Optional) Fix bugs with changing training data
+
+In Task 4, when we change the training data (adding one column), you we introduced a bug
+in the consumer app (that makes use of the model to predict).
+
+It is a common bug in ML pipelines when there are changes in feature processing in "Training"
+phase, but the same changes did not propagate property to the "Prediction" phase.
+
+Hint on fixing: The model is trained on 14 columns, while the prediction (`bin/predict.sh` only passes in 13 columns as parameters, thus being in compatible).
 
 # Consume the model
 
