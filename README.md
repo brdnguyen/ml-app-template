@@ -60,7 +60,12 @@ To fix this failing test, in your code editor, edit
 
 `test_model_metrics.py, line 16`
 
-Follow the instruction around the TODO comment. Once you fix the tests, run test again with `nosetests`
+Follow the instruction around the TODO comment. Once you fix the tests, build the model again with
+```
+python src/train.py
+```
+
+Then, test again with `nosetests` . The test should now pass.
 
 
 ## Task 2: Train and version model with MLFlow
