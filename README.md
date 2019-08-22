@@ -127,3 +127,8 @@ It is not the focus of this workshop, but we'll walk you through the bit to make
 ```
 bin/predict.sh http://localhost:8080
 ```
+# References
+
+https://github.com/ThoughtWorksInc/ml-app-template
+https://www.thoughtworks.com/insights/articles/intelligent-enterprise-series-cd4ml
+
