@@ -129,6 +129,7 @@ bin/predict.sh http://localhost:8080
 ```
 # References
 
-1.https://github.com/ThoughtWorksInc/ml-app-template
+1.https://github.com/ThoughtWorksInc/ml-app-template.
+
 2.https://www.thoughtworks.com/insights/articles/intelligent-enterprise-series-cd4ml
 
